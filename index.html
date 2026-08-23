@@ -3,488 +3,247 @@
 
 <head>
 
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>ESM Rally 2026 - Mobile Entry Scanner</title>
-
-
-  <!-- QR SCANNER LIBRARY -->
-  <script src="https://unpkg.com/html5-qrcode"></script>
-
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-    }
-
-
-    body {
-
-      margin: 0;
-
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-      background: #eef2f7;
-
-      color: #1f2937;
-
-    }
-
-
-    /* =====================================================
-       HEADER
-       ===================================================== */
-
-    .header {
-
-      background: #1f2937;
-
-      color: white;
-
-      text-align: center;
-
-      padding: 20px 10px;
-
-    }
-
-
-    .header h1 {
-
-      margin: 0;
-
-      font-size: 24px;
-
-    }
-
-
-    .header p {
-
-      margin: 6px 0 0;
-
-      font-size: 14px;
-
-    }
-
-
-    /* =====================================================
-       MAIN CONTAINER
-       ===================================================== */
-
-    .container {
-
-      width: 100%;
-
-      max-width: 600px;
-
-      margin: auto;
-
-      padding: 15px;
-
-    }
-
-
-    /* =====================================================
-       CARD
-       ===================================================== */
-
-    .card {
-
-      background: white;
-
-      border-radius: 12px;
-
-      padding: 20px;
-
-      margin-bottom: 15px;
-
-      box-shadow:
-        0 3px 12px
-        rgba(0, 0, 0, 0.08);
-
-    }
-
-
-    /* =====================================================
-       SCANNER
-       ===================================================== */
-
-    .scannerTitle {
-
-      text-align: center;
-
-      margin-top: 0;
-
-    }
-
-
-    #reader {
-
-      width: 100%;
-
-      max-width: 450px;
-
-      margin: 15px auto;
-
-      overflow: hidden;
-
-      border-radius: 10px;
-
-    }
-
-
-    /* Make video fit properly */
-
-    #reader video {
-
-      width: 100% !important;
-
-      height: auto !important;
-
-      border-radius: 10px;
-
-    }
-
-
-    #reader img {
-
-      max-width: 100%;
-
-    }
-
-
-    /* =====================================================
-       BUTTONS
-       ===================================================== */
-
-    button {
-
-      width: 100%;
-
-      padding: 15px;
-
-      border: none;
-
-      border-radius: 8px;
-
-      font-size: 17px;
-
-      font-weight: bold;
-
-      cursor: pointer;
-
-    }
-
-
-    .startButton {
-
-      background: #2563eb;
-
-      color: white;
-
-    }
-
-
-    .stopButton {
-
-      background: #dc2626;
-
-      color: white;
-
-      margin-top: 10px;
-
-    }
-
-
-    .entryButton {
-
-      background: #16a34a;
-
-      color: white;
-
-      margin-top: 20px;
-
-    }
-
-
-    .entryButton:disabled {
-
-      opacity: 0.6;
-
-      cursor: not-allowed;
-
-    }
-
-
-    .nextButton {
-
-      background: #374151;
-
-      color: white;
-
-      margin-top: 10px;
-
-    }
-
-
-    /* =====================================================
-       STATUS
-       ===================================================== */
-
-    .status {
-
-      text-align: center;
-
-      margin-top: 12px;
-
-      min-height: 20px;
-
-      font-size: 14px;
-
-      color: #475569;
-
-    }
-
-
-    /* =====================================================
-       MANUAL SEARCH
-       ===================================================== */
-
-    .manual {
-
-      display: flex;
-
-      gap: 8px;
-
-    }
-
-
-    .manual input {
-
-      flex: 1;
-
-      min-width: 0;
-
-      padding: 14px;
-
-      border:
-        1px solid #cbd5e1;
-
-      border-radius: 7px;
-
-      font-size: 17px;
-
-      text-transform: uppercase;
-
-      outline: none;
-
-    }
-
-
-    .manual input:focus {
-
-      border-color: #2563eb;
-
-    }
-
-
-    .searchButton {
-
-      width: auto;
-
-      background: #2563eb;
-
-      color: white;
-
-      padding-left: 20px;
-
-      padding-right: 20px;
-
-    }
-
-
-    /* =====================================================
-       RESULT
-       ===================================================== */
-
-    #result {
-
-      display: none;
-
-    }
-
-
-    .successCard {
-
-      border:
-        5px solid #16a34a;
-
-    }
-
-
-    .warningCard {
-
-      border:
-        5px solid #f59e0b;
-
-    }
-
-
-    .dangerCard {
-
-      border:
-        5px solid #dc2626;
-
-    }
-
-
-    .successTitle {
-
-      color: #15803d;
-
-      font-size: 28px;
-
-      font-weight: bold;
-
-      text-align: center;
-
-      margin-bottom: 15px;
-
-    }
-
-
-    .warningTitle {
-
-      color: #d97706;
-
-      font-size: 27px;
-
-      font-weight: bold;
-
-      text-align: center;
-
-      margin-bottom: 15px;
-
-    }
-
-
-    .dangerTitle {
-
-      color: #dc2626;
-
-      font-size: 27px;
-
-      font-weight: bold;
-
-      text-align: center;
-
-      margin-bottom: 15px;
-
-    }
-
-
-    /* =====================================================
-       PARTICIPANT DETAILS
-       ===================================================== */
-
-    .details {
-
-      margin-top: 15px;
-
-    }
-
-
-    .details div {
-
-      padding: 11px 5px;
-
-      border-bottom:
-        1px solid #e5e7eb;
-
-      font-size: 16px;
-
-    }
-
-
-    .label {
-
-      font-weight: bold;
-
-    }
-
-
-    /* =====================================================
-       MOBILE
-       ===================================================== */
-
-    @media (max-width: 500px) {
-
-      .header h1 {
-
-        font-size: 21px;
-
-      }
-
-
-      .container {
-
-        padding: 10px;
-
-      }
-
-
-      .card {
-
-        padding: 15px;
-
-      }
-
-
-      .manual {
-
-        flex-direction: column;
-
-      }
-
-
-      .searchButton {
-
-        width: 100%;
-
-      }
-
-
-      .successTitle {
-
-        font-size: 25px;
-
-      }
-
-
-      .warningTitle {
-
-        font-size: 24px;
-
-      }
-
-
-      .dangerTitle {
-
-        font-size: 24px;
-
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>ESM Rally 2026 - Entry Scanner</title>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #eef2f7;
+  color: #1f2937;
+}
+
+.header {
+  background: #1f2937;
+  color: white;
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.header p {
+  margin: 6px 0 0;
+  font-size: 14px;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  padding: 15px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow:
+    0 3px 12px rgba(0,0,0,0.08);
+}
+
+.scannerTitle {
+  text-align: center;
+  margin-top: 0;
+}
+
+#reader {
+  width: 100%;
+  max-width: 450px;
+  margin: 15px auto;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+#reader video {
+  width: 100% !important;
+  height: auto !important;
+  border-radius: 10px;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.startButton {
+  background: #2563eb;
+  color: white;
+}
+
+.stopButton {
+  background: #dc2626;
+  color: white;
+  margin-top: 10px;
+}
+
+.entryButton {
+  background: #16a34a;
+  color: white;
+  margin-top: 20px;
+}
+
+.entryButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.nextButton {
+  background: #374151;
+  color: white;
+  margin-top: 10px;
+}
+
+.status {
+  text-align: center;
+  margin-top: 12px;
+  min-height: 20px;
+  font-size: 14px;
+  color: #475569;
+}
+
+.manual {
+  display: flex;
+  gap: 8px;
+}
+
+.manual input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  font-size: 17px;
+  text-transform: uppercase;
+  outline: none;
+}
+
+.manual input:focus {
+  border-color: #2563eb;
+}
+
+.searchButton {
+  width: auto;
+  background: #2563eb;
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#result {
+  display: none;
+}
+
+.successCard {
+  border: 5px solid #16a34a;
+}
+
+.warningCard {
+  border: 5px solid #f59e0b;
+}
+
+.dangerCard {
+  border: 5px solid #dc2626;
+}
+
+.successTitle {
+  color: #15803d;
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.warningTitle {
+  color: #d97706;
+  font-size: 27px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.dangerTitle {
+  color: #dc2626;
+  font-size: 27px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.details {
+  margin-top: 15px;
+}
+
+.details div {
+  padding: 11px 5px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 16px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+@media (max-width: 500px) {
+
+  .header h1 {
+    font-size: 21px;
+  }
+
+  .container {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  .manual {
+    flex-direction: column;
+  }
+
+  .searchButton {
+    width: 100%;
+  }
+
+  .successTitle {
+    font-size: 25px;
+  }
+
+  .warningTitle {
+    font-size: 24px;
+  }
+
+  .dangerTitle {
+    font-size: 24px;
+  }
+
+}
+
+</style>
 
 </head>
 
@@ -492,147 +251,132 @@
 <body>
 
 
-  <!-- =====================================================
-       HEADER
-       ===================================================== -->
+<div class="header">
 
-  <div class="header">
+  <h1>
+    ESM RALLY 2026
+  </h1>
 
-    <h1>
-      ESM RALLY 2026
-    </h1>
+  <p>
+    MOBILE ENTRY SCANNER
+  </p>
 
-    <p>
-      MOBILE ENTRY SCANNER
-    </p>
+</div>
+
+
+<div class="container">
+
+
+<!-- =====================================================
+     QR SCANNER
+     ===================================================== -->
+
+<div class="card">
+
+  <h2 class="scannerTitle">
+    QR Code Scanner
+  </h2>
+
+  <div id="reader"></div>
+
+  <button
+    id="startButton"
+    class="startButton"
+    onclick="startScanner()">
+
+    📷 START QR SCANNER
+
+  </button>
+
+  <button
+    id="stopButton"
+    class="stopButton"
+    onclick="stopScanner()"
+    style="display:none;">
+
+    STOP SCANNER
+
+  </button>
+
+  <div
+    id="status"
+    class="status">
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     MANUAL REGID SEARCH
+     ===================================================== -->
+
+<div class="card">
+
+  <h3>
+    Manual REGID Search
+  </h3>
+
+  <div class="manual">
+
+    <input
+      type="text"
+      id="regIdInput"
+      placeholder="REGID-0001"
+      autocomplete="off"
+    >
+
+    <button
+      class="searchButton"
+      onclick="manualSearch()">
+
+      SEARCH
+
+    </button>
 
   </div>
 
-
-  <div class="container">
-
-
-    <!-- ===================================================
-         QR SCANNER
-         =================================================== -->
-
-    <div class="card">
-
-      <h2 class="scannerTitle">
-        QR Code Scanner
-      </h2>
+</div>
 
 
-      <div id="reader"></div>
+<!-- =====================================================
+     RESULT
+     ===================================================== -->
 
+<div
+  id="result"
+  class="card">
 
-      <button
-        id="startButton"
-        class="startButton"
-        onclick="startScanner()">
-
-        📷 START QR SCANNER
-
-      </button>
-
-
-      <button
-        id="stopButton"
-        class="stopButton"
-        onclick="stopScanner()"
-        style="display:none;">
-
-        STOP SCANNER
-
-      </button>
-
-
-      <div
-        id="status"
-        class="status">
-
-      </div>
-
-    </div>
-
-
-    <!-- ===================================================
-         MANUAL SEARCH
-         =================================================== -->
-
-    <div class="card">
-
-      <h3>
-        Manual REGID Search
-      </h3>
-
-
-      <div class="manual">
-
-        <input
-          type="text"
-          id="regIdInput"
-          placeholder="REGID-0001"
-          autocomplete="off"
-        >
-
-
-        <button
-          class="searchButton"
-          onclick="manualSearch()">
-
-          SEARCH
-
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- ===================================================
-         RESULT
-         =================================================== -->
-
-    <div
-      id="result"
-      class="card">
-
-
-      <div
-        id="resultTitle">
-      </div>
-
-
-      <div
-        id="details"
-        class="details">
-      </div>
-
-
-      <button
-        id="entryButton"
-        class="entryButton"
-        onclick="allowEntry()">
-
-        ALLOW ENTRY
-
-      </button>
-
-
-      <button
-        id="nextButton"
-        class="nextButton"
-        onclick="resetScanner()">
-
-        SCAN NEXT PARTICIPANT
-
-      </button>
-
-    </div>
-
-
+  <div
+    id="resultTitle">
   </div>
+
+  <div
+    id="details"
+    class="details">
+  </div>
+
+  <button
+    id="entryButton"
+    class="entryButton"
+    onclick="allowEntry()">
+
+    ALLOW ENTRY
+
+  </button>
+
+  <button
+    id="nextButton"
+    class="nextButton"
+    onclick="resetScanner()">
+
+    SCAN NEXT PARTICIPANT
+
+  </button>
+
+</div>
+
+
+</div>
 
 
 <script>
@@ -640,14 +384,6 @@
 
 // ==========================================================
 // GOOGLE APPS SCRIPT WEB APP URL
-// ==========================================================
-//
-// IMPORTANT:
-// Replace this with your actual Apps Script /exec URL.
-//
-// Example:
-// https://script.google.com/macros/s/XXXXXXXX/exec
-//
 // ==========================================================
 
 const SCRIPT_URL =
@@ -668,34 +404,23 @@ let currentParticipant = null;
 
 
 // ==========================================================
-// START QR SCANNER
+// START SCANNER
 // ==========================================================
 
 function startScanner() {
 
   if (scannerRunning) {
-
     return;
-
   }
 
-
   const status =
-    document.getElementById(
-      "status"
-    );
-
+    document.getElementById("status");
 
   const startButton =
-    document.getElementById(
-      "startButton"
-    );
-
+    document.getElementById("startButton");
 
   const stopButton =
-    document.getElementById(
-      "stopButton"
-    );
+    document.getElementById("stopButton");
 
 
   status.innerText =
@@ -707,34 +432,11 @@ function startScanner() {
 
 
   scanner =
-    new Html5Qrcode(
-      "reader"
-    );
+    new Html5Qrcode("reader");
 
-
-  /*
-   * IMPORTANT:
-   *
-   * Use a STRING here.
-   *
-   * Do NOT use:
-   *
-   * {
-   *   ideal: "environment"
-   * }
-   *
-   * This fixes the:
-   *
-   * "facingMode should be string
-   * or object with exact as key"
-   *
-   * error.
-   */
 
   const cameraConfig = {
-
     facingMode: "environment"
-
   };
 
 
@@ -769,11 +471,8 @@ function startScanner() {
 
 
       return {
-
         width: size,
-
         height: size
-
       };
 
     }
@@ -781,99 +480,80 @@ function startScanner() {
   };
 
 
-  scanner
-    .start(
+  scanner.start(
 
-      cameraConfig,
+    cameraConfig,
 
-      qrConfig,
+    qrConfig,
 
-      function(decodedText) {
+    function(decodedText) {
 
-        handleQRCode(
-          decodedText
-        );
+      handleQRCode(decodedText);
 
-      },
+    },
 
-      function(errorMessage) {
+    function(errorMessage) {
 
-        /*
-         * QR not detected.
-         *
-         * This happens continuously
-         * while scanning and is normal.
-         */
+      // Normal scanning errors are ignored.
 
-      }
+    }
 
-    )
+  )
 
-    .then(function() {
+  .then(function() {
 
-      scannerRunning =
-        true;
+    scannerRunning =
+      true;
 
+    startButton.disabled =
+      false;
 
-      startButton.disabled =
-        false;
+    startButton.style.display =
+      "none";
 
+    stopButton.style.display =
+      "block";
 
-      startButton.style.display =
-        "none";
+    status.innerText =
+      "Camera ready. Scan the QR code.";
 
+  })
 
-      stopButton.style.display =
-        "block";
+  .catch(function(error) {
 
+    console.error(
+      "Camera error:",
+      error
+    );
 
-      status.innerText =
-        "Camera ready. Point the QR code inside the scanning area.";
+    scannerRunning =
+      false;
 
-    })
+    startButton.disabled =
+      false;
 
-    .catch(function(error) {
+    startButton.style.display =
+      "block";
 
-      console.error(
-        "Camera error:",
-        error
-      );
+    stopButton.style.display =
+      "none";
 
+    status.innerText =
+      "Camera could not be started. " +
+      "Please allow camera permission.";
 
-      scannerRunning =
-        false;
-
-
-      startButton.disabled =
-        false;
-
-
-      startButton.style.display =
-        "block";
-
-
-      stopButton.style.display =
-        "none";
-
-
-      status.innerText =
-        "Camera could not be started. " +
-        "Please allow camera permission for this site.";
-
-    });
+  });
 
 }
 
 
 // ==========================================================
-// STOP QR SCANNER
+// STOP SCANNER
 // ==========================================================
 
 function stopScanner() {
 
-  if (
-    !scanner
-  ) {
+  if (!scanner) {
 
     scannerRunning =
       false;
@@ -889,48 +569,34 @@ function stopScanner() {
     .then(function() {
 
       try {
-
         scanner.clear();
-
       }
 
       catch (e) {
-
-        console.log(
-          e
-        );
-
+        console.log(e);
       }
 
 
-      scanner =
-        null;
-
+      scanner = null;
 
       scannerRunning =
         false;
 
 
       document
-        .getElementById(
-          "startButton"
-        )
+        .getElementById("startButton")
         .style.display =
         "block";
 
 
       document
-        .getElementById(
-          "startButton"
-        )
+        .getElementById("startButton")
         .disabled =
         false;
 
 
       document
-        .getElementById(
-          "stopButton"
-        )
+        .getElementById("stopButton")
         .style.display =
         "none";
 
@@ -944,36 +610,10 @@ function stopScanner() {
       );
 
 
-      scanner =
-        null;
-
+      scanner = null;
 
       scannerRunning =
         false;
-
-
-      document
-        .getElementById(
-          "startButton"
-        )
-        .style.display =
-        "block";
-
-
-      document
-        .getElementById(
-          "startButton"
-        )
-        .disabled =
-        false;
-
-
-      document
-        .getElementById(
-          "stopButton"
-        )
-        .style.display =
-        "none";
 
     });
 
@@ -981,42 +621,26 @@ function stopScanner() {
 
 
 // ==========================================================
-// QR CODE RECEIVED
+// QR CODE DETECTED
 // ==========================================================
 
-function handleQRCode(
-  value
-) {
+function handleQRCode(value) {
 
   value =
-    String(
-      value || ""
-    )
-    .trim()
-    .toUpperCase();
+    String(value || "")
+      .trim()
+      .toUpperCase();
 
 
-  if (
-    !value
-  ) {
-
+  if (!value) {
     return;
-
   }
 
-
-  /*
-   * Prevent the same QR from being
-   * processed repeatedly while the
-   * camera is still stopping.
-   */
 
   if (
     currentRegId === value
   ) {
-
     return;
-
   }
 
 
@@ -1028,18 +652,12 @@ function handleQRCode(
 
 
   document
-    .getElementById(
-      "status"
-    )
+    .getElementById("status")
     .innerText =
-    "QR detected: " +
-    value +
-    ". Checking registration...";
+    "QR detected. Checking registration...";
 
 
-  processRegId(
-    value
-  );
+  processRegId(value);
 
 }
 
@@ -1048,21 +666,15 @@ function handleQRCode(
 // PROCESS REGID
 // ==========================================================
 
-function processRegId(
-  regId
-) {
+function processRegId(regId) {
 
   regId =
-    String(
-      regId || ""
-    )
-    .trim()
-    .toUpperCase();
+    String(regId || "")
+      .trim()
+      .toUpperCase();
 
 
-  if (
-    !regId
-  ) {
+  if (!regId) {
 
     showError(
       "Registration ID is empty."
@@ -1078,37 +690,28 @@ function processRegId(
 
 
   document
-    .getElementById(
-      "status"
-    )
+    .getElementById("status")
     .innerText =
-    "Checking " +
-    regId +
-    "...";
+    "Checking " + regId + "...";
 
 
   const url =
     SCRIPT_URL +
     "?action=find&regid=" +
-    encodeURIComponent(
-      regId
-    );
+    encodeURIComponent(regId);
 
 
   fetch(
     url,
     {
       method: "GET",
-
       cache: "no-store"
     }
   )
 
   .then(function(response) {
 
-    if (
-      !response.ok
-    ) {
+    if (!response.ok) {
 
       throw new Error(
         "Server returned HTTP " +
@@ -1124,9 +727,7 @@ function processRegId(
 
   .then(function(result) {
 
-    displayParticipant(
-      result
-    );
+    displayParticipant(result);
 
   })
 
@@ -1148,35 +749,22 @@ function processRegId(
 
 
 // ==========================================================
-// DISPLAY PARTICIPANT
+// DISPLAY ONLY THE FOUR ALLOWED FIELDS
 // ==========================================================
 
-function displayParticipant(
-  result
-) {
+function displayParticipant(result) {
 
   const resultBox =
-    document.getElementById(
-      "result"
-    );
-
+    document.getElementById("result");
 
   const title =
-    document.getElementById(
-      "resultTitle"
-    );
-
+    document.getElementById("resultTitle");
 
   const details =
-    document.getElementById(
-      "details"
-    );
-
+    document.getElementById("details");
 
   const entryButton =
-    document.getElementById(
-      "entryButton"
-    );
+    document.getElementById("entryButton");
 
 
   resultBox.style.display =
@@ -1188,7 +776,7 @@ function displayParticipant(
 
 
   // ========================================================
-  // INVALID REGISTRATION
+  // INVALID
   // ========================================================
 
   if (
@@ -1224,14 +812,6 @@ function displayParticipant(
       "none";
 
 
-    document
-      .getElementById(
-        "status"
-      )
-      .innerText =
-      "Invalid registration.";
-
-
     return;
 
   }
@@ -1244,11 +824,10 @@ function displayParticipant(
   if (
 
     String(
-      result.entryStatus ||
-      ""
+      result.entryStatus || ""
     )
-    .trim()
-    .toLowerCase() ===
+      .trim()
+      .toLowerCase() ===
     "entered"
 
   ) {
@@ -1267,33 +846,29 @@ function displayParticipant(
 
     details.innerHTML =
 
-      participantDetails(
-        result
-      ) +
+      "<div>" +
+      "<span class='label'>REGID:</span> " +
+      safe(result.regId) +
+      "</div>" +
 
       "<div>" +
+      "<span class='label'>Name:</span> " +
+      safe(result.name) +
+      "</div>" +
 
-      "<span class='label'>" +
-      "Entry Time:" +
-      "</span> " +
+      "<div>" +
+      "<span class='label'>Entry Status:</span> " +
+      safe(result.entryStatus) +
+      "</div>" +
 
-      safe(
-        result.entryTime
-      ) +
-
+      "<div>" +
+      "<span class='label'>Entry Time:</span> " +
+      safe(result.entryTime) +
       "</div>";
 
 
     entryButton.style.display =
       "none";
-
-
-    document
-      .getElementById(
-        "status"
-      )
-      .innerText =
-      "This registration has already been used.";
 
 
     return;
@@ -1302,7 +877,7 @@ function displayParticipant(
 
 
   // ========================================================
-  // VALID REGISTRATION
+  // VALID - NOT ENTERED
   // ========================================================
 
   resultBox.className =
@@ -1318,9 +893,26 @@ function displayParticipant(
 
 
   details.innerHTML =
-    participantDetails(
-      result
-    );
+
+    "<div>" +
+    "<span class='label'>REGID:</span> " +
+    safe(result.regId) +
+    "</div>" +
+
+    "<div>" +
+    "<span class='label'>Name:</span> " +
+    safe(result.name) +
+    "</div>" +
+
+    "<div>" +
+    "<span class='label'>Entry Status:</span> " +
+    safe(result.entryStatus) +
+    "</div>" +
+
+    "<div>" +
+    "<span class='label'>Entry Time:</span> " +
+    safe(result.entryTime || "—") +
+    "</div>";
 
 
   entryButton.style.display =
@@ -1334,106 +926,6 @@ function displayParticipant(
   entryButton.innerText =
     "ALLOW ENTRY";
 
-
-  document
-    .getElementById(
-      "status"
-    )
-    .innerText =
-    "Registration verified.";
-
-}
-
-
-// ==========================================================
-// PARTICIPANT DETAILS
-// ==========================================================
-
-function participantDetails(
-  participant
-) {
-
-  return (
-
-    "<div>" +
-
-    "<span class='label'>" +
-    "REGID:" +
-    "</span> " +
-
-    safe(
-      participant.regId
-    ) +
-
-    "</div>" +
-
-
-    "<div>" +
-
-    "<span class='label'>" +
-    "Army No:" +
-    "</span> " +
-
-    safe(
-      participant.armyNo
-    ) +
-
-    "</div>" +
-
-
-    "<div>" +
-
-    "<span class='label'>" +
-    "Rank:" +
-    "</span> " +
-
-    safe(
-      participant.rank
-    ) +
-
-    "</div>" +
-
-
-    "<div>" +
-
-    "<span class='label'>" +
-    "Name:" +
-    "</span> " +
-
-    safe(
-      participant.name
-    ) +
-
-    "</div>" +
-
-
-    "<div>" +
-
-    "<span class='label'>" +
-    "Unit:" +
-    "</span> " +
-
-    safe(
-      participant.unit
-    ) +
-
-    "</div>" +
-
-
-    "<div>" +
-
-    "<span class='label'>" +
-    "Mobile:" +
-    "</span> " +
-
-    safe(
-      participant.mobile
-    ) +
-
-    "</div>"
-
-  );
-
 }
 
 
@@ -1443,9 +935,7 @@ function participantDetails(
 
 function allowEntry() {
 
-  if (
-    !currentRegId
-  ) {
+  if (!currentRegId) {
 
     showError(
       "No Registration ID selected."
@@ -1470,14 +960,6 @@ function allowEntry() {
     "PROCESSING...";
 
 
-  document
-    .getElementById(
-      "status"
-    )
-    .innerText =
-    "Recording entry...";
-
-
   const url =
     SCRIPT_URL +
     "?action=entry&regid=" +
@@ -1491,20 +973,15 @@ function allowEntry() {
     url,
 
     {
-
       method: "GET",
-
       cache: "no-store"
-
     }
 
   )
 
   .then(function(response) {
 
-    if (
-      !response.ok
-    ) {
+    if (!response.ok) {
 
       throw new Error(
         "Server returned HTTP " +
@@ -1520,9 +997,7 @@ function allowEntry() {
 
   .then(function(result) {
 
-    processEntryResult(
-      result
-    );
+    processEntryResult(result);
 
   })
 
@@ -1555,32 +1030,19 @@ function allowEntry() {
 // PROCESS ENTRY RESULT
 // ==========================================================
 
-function processEntryResult(
-  result
-) {
+function processEntryResult(result) {
 
   const resultBox =
-    document.getElementById(
-      "result"
-    );
-
+    document.getElementById("result");
 
   const title =
-    document.getElementById(
-      "resultTitle"
-    );
-
+    document.getElementById("resultTitle");
 
   const details =
-    document.getElementById(
-      "details"
-    );
-
+    document.getElementById("details");
 
   const button =
-    document.getElementById(
-      "entryButton"
-    );
+    document.getElementById("entryButton");
 
 
   // ========================================================
@@ -1606,33 +1068,29 @@ function processEntryResult(
 
     details.innerHTML =
 
-      participantDetails(
-        currentParticipant
-      ) +
+      "<div>" +
+      "<span class='label'>REGID:</span> " +
+      safe(currentParticipant.regId) +
+      "</div>" +
 
       "<div>" +
+      "<span class='label'>Name:</span> " +
+      safe(currentParticipant.name) +
+      "</div>" +
 
-      "<span class='label'>" +
-      "Entry Time:" +
-      "</span> " +
+      "<div>" +
+      "<span class='label'>Entry Status:</span> " +
+      "Entered" +
+      "</div>" +
 
-      safe(
-        result.entryTime
-      ) +
-
+      "<div>" +
+      "<span class='label'>Entry Time:</span> " +
+      safe(result.entryTime) +
       "</div>";
 
 
     button.style.display =
       "none";
-
-
-    document
-      .getElementById(
-        "status"
-      )
-      .innerText =
-      "Entry successfully recorded.";
 
 
     return;
@@ -1662,20 +1120,24 @@ function processEntryResult(
 
     details.innerHTML =
 
-      participantDetails(
-        currentParticipant
-      ) +
+      "<div>" +
+      "<span class='label'>REGID:</span> " +
+      safe(currentParticipant.regId) +
+      "</div>" +
 
       "<div>" +
+      "<span class='label'>Name:</span> " +
+      safe(currentParticipant.name) +
+      "</div>" +
 
-      "<span class='label'>" +
-      "Entry Time:" +
-      "</span> " +
+      "<div>" +
+      "<span class='label'>Entry Status:</span> " +
+      "Entered" +
+      "</div>" +
 
-      safe(
-        result.entryTime
-      ) +
-
+      "<div>" +
+      "<span class='label'>Entry Time:</span> " +
+      safe(result.entryTime) +
       "</div>";
 
 
@@ -1683,22 +1145,10 @@ function processEntryResult(
       "none";
 
 
-    document
-      .getElementById(
-        "status"
-      )
-      .innerText =
-      "This participant has already entered.";
-
-
     return;
 
   }
 
-
-  // ========================================================
-  // ERROR
-  // ========================================================
 
   button.disabled =
     false;
@@ -1734,9 +1184,7 @@ function manualSearch() {
       .toUpperCase();
 
 
-  if (
-    !regId
-  ) {
+  if (!regId) {
 
     alert(
       "Please enter a Registration ID."
@@ -1750,9 +1198,7 @@ function manualSearch() {
   stopScanner();
 
 
-  processRegId(
-    regId
-  );
+  processRegId(regId);
 
 }
 
@@ -1774,25 +1220,19 @@ function resetScanner() {
 
 
   document
-    .getElementById(
-      "result"
-    )
+    .getElementById("result")
     .style.display =
     "none";
 
 
   document
-    .getElementById(
-      "regIdInput"
-    )
+    .getElementById("regIdInput")
     .value =
     "";
 
 
   document
-    .getElementById(
-      "status"
-    )
+    .getElementById("status")
     .innerText =
     "";
 
@@ -1814,44 +1254,24 @@ function resetScanner() {
   entryButton.innerText =
     "ALLOW ENTRY";
 
-
-  document
-    .getElementById(
-      "startButton"
-    )
-    .style.display =
-    "block";
-
-
-  document
-    .getElementById(
-      "stopButton"
-    )
-    .style.display =
-    "none";
-
 }
 
 
 // ==========================================================
-// SHOW ERROR
+// ERROR
 // ==========================================================
 
-function showError(
-  message
-) {
+function showError(message) {
 
   const resultBox =
     document.getElementById(
       "result"
     );
 
-
   const title =
     document.getElementById(
       "resultTitle"
     );
-
 
   const details =
     document.getElementById(
@@ -1876,33 +1296,18 @@ function showError(
 
 
   details.innerHTML =
-
     "<div>" +
-
-    safe(
-      message
-    ) +
-
+    safe(message) +
     "</div>";
-
-
-  document
-    .getElementById(
-      "status"
-    )
-    .innerText =
-    "";
 
 }
 
 
 // ==========================================================
-// SAFE HTML OUTPUT
+// HTML SAFETY
 // ==========================================================
 
-function safe(
-  value
-) {
+function safe(value) {
 
   if (
     value === null ||
@@ -1914,46 +1319,42 @@ function safe(
   }
 
 
-  return String(
-    value
-  )
+  return String(value)
 
-  .replace(
-    /&/g,
-    "&amp;"
-  )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
 
-  .replace(
-    /</g,
-    "&lt;"
-  )
+    .replace(
+      /</g,
+      "&lt;"
+    )
 
-  .replace(
-    />/g,
-    "&gt;"
-  )
+    .replace(
+      />/g,
+      "&gt;"
+    )
 
-  .replace(
-    /"/g,
-    "&quot;"
-  )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
 
-  .replace(
-    /'/g,
-    "&#039;"
-  );
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
 
 
 // ==========================================================
-// ENTER KEY FOR MANUAL SEARCH
+// ENTER KEY
 // ==========================================================
 
 document
-  .getElementById(
-    "regIdInput"
-  )
+  .getElementById("regIdInput")
   .addEventListener(
     "keydown",
     function(event) {
@@ -1970,7 +1371,6 @@ document
   );
 
 </script>
-
 
 </body>
 
