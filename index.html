@@ -1,1 +1,1557 @@
+<!DOCTYPE html>
 
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+ESM Rally 2026 - Mobile Entry
+</title>
+
+
+<!-- QR SCANNER LIBRARY -->
+
+<script
+  src="https://unpkg.com/html5-qrcode"
+></script>
+
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+
+body {
+
+  margin: 0;
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  background:
+    #eef2f7;
+
+  color:
+    #1f2937;
+
+}
+
+
+.header {
+
+  background:
+    #1f2937;
+
+  color:
+    white;
+
+  text-align:
+    center;
+
+  padding:
+    20px 10px;
+
+}
+
+
+.header h1 {
+
+  margin:
+    0;
+
+  font-size:
+    24px;
+
+}
+
+
+.header p {
+
+  margin:
+    6px 0 0;
+
+  font-size:
+    14px;
+
+}
+
+
+.container {
+
+  max-width:
+    600px;
+
+  margin:
+    auto;
+
+  padding:
+    15px;
+
+}
+
+
+.card {
+
+  background:
+    white;
+
+  border-radius:
+    12px;
+
+  padding:
+    20px;
+
+  margin-bottom:
+    15px;
+
+  box-shadow:
+    0 3px 12px
+    rgba(0,0,0,0.08);
+
+}
+
+
+h2 {
+
+  text-align:
+    center;
+
+  margin-top:
+    0;
+
+}
+
+
+#reader {
+
+  width:
+    100%;
+
+  max-width:
+    450px;
+
+  margin:
+    auto;
+
+}
+
+
+button {
+
+  width:
+    100%;
+
+  padding:
+    15px;
+
+  border:
+    none;
+
+  border-radius:
+    8px;
+
+  font-size:
+    17px;
+
+  font-weight:
+    bold;
+
+  cursor:
+    pointer;
+
+}
+
+
+.start {
+
+  background:
+    #2563eb;
+
+  color:
+    white;
+
+}
+
+
+.stop {
+
+  background:
+    #dc2626;
+
+  color:
+    white;
+
+  margin-top:
+    10px;
+
+}
+
+
+.manual {
+
+  display:
+    flex;
+
+  gap:
+    8px;
+
+}
+
+
+.manual input {
+
+  flex:
+    1;
+
+  padding:
+    14px;
+
+  border:
+    1px solid #cbd5e1;
+
+  border-radius:
+    7px;
+
+  font-size:
+    17px;
+
+  text-transform:
+    uppercase;
+
+}
+
+
+.search {
+
+  width:
+    auto;
+
+  background:
+    #2563eb;
+
+  color:
+    white;
+
+}
+
+
+#result {
+
+  display:
+    none;
+
+}
+
+
+.success {
+
+  border:
+    5px solid #16a34a;
+
+}
+
+
+.warning {
+
+  border:
+    5px solid #f59e0b;
+
+}
+
+
+.danger {
+
+  border:
+    5px solid #dc2626;
+
+}
+
+
+.successTitle {
+
+  color:
+    #15803d;
+
+  font-size:
+    28px;
+
+  font-weight:
+    bold;
+
+  text-align:
+    center;
+
+}
+
+
+.warningTitle {
+
+  color:
+    #d97706;
+
+  font-size:
+    27px;
+
+  font-weight:
+    bold;
+
+  text-align:
+    center;
+
+}
+
+
+.dangerTitle {
+
+  color:
+    #dc2626;
+
+  font-size:
+    27px;
+
+  font-weight:
+    bold;
+
+  text-align:
+    center;
+
+}
+
+
+.details {
+
+  margin-top:
+    15px;
+
+}
+
+
+.details div {
+
+  padding:
+    10px 5px;
+
+  border-bottom:
+    1px solid #e5e7eb;
+
+}
+
+
+.label {
+
+  font-weight:
+    bold;
+
+}
+
+
+.entry {
+
+  background:
+    #16a34a;
+
+  color:
+    white;
+
+  margin-top:
+    20px;
+
+}
+
+
+.next {
+
+  background:
+    #374151;
+
+  color:
+    white;
+
+  margin-top:
+    10px;
+
+}
+
+
+.status {
+
+  text-align:
+    center;
+
+  margin:
+    10px 0;
+
+  min-height:
+    20px;
+
+  font-size:
+    14px;
+
+}
+
+
+@media(max-width:500px) {
+
+  .manual {
+
+    flex-direction:
+      column;
+
+  }
+
+  .search {
+
+    width:
+      100%;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+  <h1>
+    ESM RALLY 2026
+  </h1>
+
+  <p>
+    MOBILE ENTRY SCANNER
+  </p>
+
+</div>
+
+
+<div class="container">
+
+
+  <!-- =====================================================
+       QR SCANNER
+       ===================================================== -->
+
+  <div class="card">
+
+    <h2>
+      QR Code Scanner
+    </h2>
+
+    <div
+      id="reader">
+    </div>
+
+    <br>
+
+    <button
+      id="startButton"
+      class="start"
+      onclick="startScanner()">
+
+      📷 START QR SCANNER
+
+    </button>
+
+
+    <button
+      id="stopButton"
+      class="stop"
+      onclick="stopScanner()"
+      style="display:none">
+
+      STOP SCANNER
+
+    </button>
+
+
+    <div
+      id="status"
+      class="status">
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       MANUAL SEARCH
+       ===================================================== -->
+
+  <div class="card">
+
+    <h3>
+      Manual REGID Search
+    </h3>
+
+
+    <div class="manual">
+
+      <input
+        id="regIdInput"
+        placeholder="REGID-0001"
+        autocomplete="off"
+      >
+
+      <button
+        class="search"
+        onclick="manualSearch()">
+
+        SEARCH
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       RESULT
+       ===================================================== -->
+
+  <div
+    id="result"
+    class="card">
+
+
+    <div
+      id="resultTitle">
+    </div>
+
+
+    <div
+      id="details"
+      class="details">
+    </div>
+
+
+    <button
+      id="entryButton"
+      class="entry"
+      onclick="allowEntry()">
+
+      ALLOW ENTRY
+
+    </button>
+
+
+    <button
+      class="next"
+      onclick="resetScanner()">
+
+      SCAN NEXT PARTICIPANT
+
+    </button>
+
+
+  </div>
+
+
+</div>
+
+
+<script>
+
+
+// ==========================================================
+// YOUR GOOGLE APPS SCRIPT WEB APP URL
+// ==========================================================
+
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbz22ldUhMO2D1p_CwJpkxrZfaepV2Il62XP_B5d80NOxFVPJ0KtRpO3mt_ZN-fjDIqnDw/exec";
+
+
+// ==========================================================
+// GLOBAL VARIABLES
+// ==========================================================
+
+let scanner =
+  null;
+
+let currentRegId =
+  "";
+
+let currentParticipant =
+  null;
+
+
+// ==========================================================
+// START QR SCANNER
+// ==========================================================
+
+function startScanner() {
+
+
+  document
+    .getElementById(
+      "startButton"
+    )
+    .style.display =
+      "none";
+
+
+  document
+    .getElementById(
+      "stopButton"
+    )
+    .style.display =
+      "block";
+
+
+  document
+    .getElementById(
+      "status"
+    )
+    .innerText =
+      "Starting camera...";
+
+
+  scanner =
+    new Html5Qrcode(
+      "reader"
+    );
+
+
+  scanner
+    .start(
+
+      {
+        facingMode:
+          {
+            ideal:
+              "environment"
+          }
+      },
+
+      {
+        fps:
+          10,
+
+        qrbox:
+          {
+            width:
+              250,
+
+            height:
+              250
+          }
+
+      },
+
+      function(decodedText) {
+
+        handleQRCode(
+          decodedText
+        );
+
+      },
+
+      function(errorMessage) {
+
+        // Normal scanning errors
+        // are ignored.
+
+      }
+
+    )
+
+    .then(function() {
+
+      document
+        .getElementById(
+          "status"
+        )
+        .innerText =
+        "Camera ready. Scan the participant QR code.";
+
+    })
+
+    .catch(function(error) {
+
+      console.error(
+        error
+      );
+
+
+      document
+        .getElementById(
+          "status"
+        )
+        .innerText =
+        "Camera could not be started. " +
+        "Please allow camera permission.";
+
+      document
+        .getElementById(
+          "startButton"
+        )
+        .style.display =
+        "block";
+
+
+      document
+        .getElementById(
+          "stopButton"
+        )
+        .style.display =
+        "none";
+
+    });
+
+}
+
+
+// ==========================================================
+// STOP SCANNER
+// ==========================================================
+
+function stopScanner() {
+
+  if (
+    scanner
+  ) {
+
+    scanner
+      .stop()
+      .then(function() {
+
+        scanner.clear();
+
+        scanner =
+          null;
+
+      })
+
+      .catch(function(error) {
+
+        console.log(
+          error
+        );
+
+      });
+
+  }
+
+
+  document
+    .getElementById(
+      "startButton"
+    )
+    .style.display =
+    "block";
+
+
+  document
+    .getElementById(
+      "stopButton"
+    )
+    .style.display =
+    "none";
+
+}
+
+
+// ==========================================================
+// QR CODE RECEIVED
+// ==========================================================
+
+function handleQRCode(
+  value
+) {
+
+  value =
+    String(
+      value || ""
+    )
+    .trim()
+    .toUpperCase();
+
+
+  if (
+    !value
+  ) {
+
+    return;
+
+  }
+
+
+  // Stop scanner immediately
+
+  stopScanner();
+
+
+  processRegId(
+    value
+  );
+
+}
+
+
+// ==========================================================
+// PROCESS REGID
+// ==========================================================
+
+function processRegId(
+  regId
+) {
+
+  regId =
+    String(
+      regId || ""
+    )
+    .trim()
+    .toUpperCase();
+
+
+  if (
+    !regId
+  ) {
+
+    return;
+
+  }
+
+
+  currentRegId =
+    regId;
+
+
+  document
+    .getElementById(
+      "status"
+    )
+    .innerText =
+    "Checking " +
+    regId +
+    "...";
+
+
+  fetch(
+
+    SCRIPT_URL +
+    "?action=find&regid=" +
+    encodeURIComponent(
+      regId
+    )
+
+  )
+
+  .then(function(response) {
+
+    return response.json();
+
+  })
+
+  .then(function(result) {
+
+    displayParticipant(
+      result
+    );
+
+  })
+
+  .catch(function(error) {
+
+    console.error(
+      error
+    );
+
+
+    showError(
+      "Unable to connect to registration server."
+    );
+
+  });
+
+}
+
+
+// ==========================================================
+// DISPLAY PARTICIPANT
+// ==========================================================
+
+function displayParticipant(
+  result
+) {
+
+  const resultBox =
+    document.getElementById(
+      "result"
+    );
+
+
+  const title =
+    document.getElementById(
+      "resultTitle"
+    );
+
+
+  const details =
+    document.getElementById(
+      "details"
+    );
+
+
+  const entryButton =
+    document.getElementById(
+      "entryButton"
+    );
+
+
+  resultBox.style.display =
+    "block";
+
+
+  currentParticipant =
+    result;
+
+
+  // ========================================================
+  // INVALID
+  // ========================================================
+
+  if (
+    !result.success ||
+    !result.found
+  ) {
+
+    resultBox.className =
+      "card danger";
+
+
+    title.className =
+      "dangerTitle";
+
+
+    title.innerHTML =
+      "✕ INVALID REGISTRATION";
+
+
+    details.innerHTML =
+
+      "<div>" +
+      safe(
+        result.message ||
+        "Registration not found."
+      ) +
+      "</div>";
+
+
+    entryButton.style.display =
+      "none";
+
+
+    return;
+
+  }
+
+
+  // ========================================================
+  // ALREADY ENTERED
+  // ========================================================
+
+  if (
+
+    String(
+      result.entryStatus ||
+      ""
+    )
+    .toLowerCase() ===
+    "entered"
+
+  ) {
+
+    resultBox.className =
+      "card warning";
+
+
+    title.className =
+      "warningTitle";
+
+
+    title.innerHTML =
+      "⚠ ALREADY ENTERED";
+
+
+    details.innerHTML =
+
+      participantDetails(
+        result
+      ) +
+
+      "<div>" +
+      "<span class='label'>Entry Time:</span> " +
+      safe(
+        result.entryTime
+      ) +
+      "</div>";
+
+
+    entryButton.style.display =
+      "none";
+
+
+    return;
+
+  }
+
+
+  // ========================================================
+  // VALID
+  // ========================================================
+
+  resultBox.className =
+    "card success";
+
+
+  title.className =
+    "successTitle";
+
+
+  title.innerHTML =
+    "✓ REGISTRATION VERIFIED";
+
+
+  details.innerHTML =
+    participantDetails(
+      result
+    );
+
+
+  entryButton.style.display =
+    "block";
+
+
+  entryButton.disabled =
+    false;
+
+
+  entryButton.innerText =
+    "ALLOW ENTRY";
+
+}
+
+
+// ==========================================================
+// PARTICIPANT DETAILS
+// ==========================================================
+
+function participantDetails(
+  p
+) {
+
+  return
+
+    "<div>" +
+    "<span class='label'>REGID:</span> " +
+    safe(
+      p.regId
+    ) +
+    "</div>" +
+
+    "<div>" +
+    "<span class='label'>Army No:</span> " +
+    safe(
+      p.armyNo
+    ) +
+    "</div>" +
+
+    "<div>" +
+    "<span class='label'>Rank:</span> " +
+    safe(
+      p.rank
+    ) +
+    "</div>" +
+
+    "<div>" +
+    "<span class='label'>Name:</span> " +
+    safe(
+      p.name
+    ) +
+    "</div>" +
+
+    "<div>" +
+    "<span class='label'>Unit:</span> " +
+    safe(
+      p.unit
+    ) +
+    "</div>" +
+
+    "<div>" +
+    "<span class='label'>Mobile:</span> " +
+    safe(
+      p.mobile
+    ) +
+    "</div>";
+
+}
+
+
+// ==========================================================
+// ALLOW ENTRY
+// ==========================================================
+
+function allowEntry() {
+
+  if (
+    !currentRegId
+  ) {
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "entryButton"
+    );
+
+
+  button.disabled =
+    true;
+
+
+  button.innerText =
+    "PROCESSING...";
+
+
+  fetch(
+
+    SCRIPT_URL +
+    "?action=entry&regid=" +
+    encodeURIComponent(
+      currentRegId
+    )
+
+  )
+
+  .then(function(response) {
+
+    return response.json();
+
+  })
+
+  .then(function(result) {
+
+    processEntryResult(
+      result
+    );
+
+  })
+
+  .catch(function(error) {
+
+    console.error(
+      error
+    );
+
+
+    button.disabled =
+      false;
+
+
+    button.innerText =
+      "ALLOW ENTRY";
+
+
+    showError(
+      "Unable to connect to registration server."
+    );
+
+  });
+
+}
+
+
+// ==========================================================
+// ENTRY RESULT
+// ==========================================================
+
+function processEntryResult(
+  result
+) {
+
+  const resultBox =
+    document.getElementById(
+      "result"
+    );
+
+
+  const title =
+    document.getElementById(
+      "resultTitle"
+    );
+
+
+  const details =
+    document.getElementById(
+      "details"
+    );
+
+
+  const button =
+    document.getElementById(
+      "entryButton"
+    );
+
+
+  // ========================================================
+  // SUCCESS
+  // ========================================================
+
+  if (
+    result.success &&
+    result.entryAllowed
+  ) {
+
+    resultBox.className =
+      "card success";
+
+
+    title.className =
+      "successTitle";
+
+
+    title.innerHTML =
+      "✓ ENTRY ALLOWED";
+
+
+    details.innerHTML =
+
+      participantDetails(
+        currentParticipant
+      ) +
+
+      "<div>" +
+      "<span class='label'>Entry Time:</span> " +
+      safe(
+        result.entryTime
+      ) +
+      "</div>";
+
+
+    button.style.display =
+      "none";
+
+
+    document
+      .getElementById(
+        "status"
+      )
+      .innerText =
+      "Entry successfully recorded.";
+
+
+    return;
+
+  }
+
+
+  // ========================================================
+  // ALREADY ENTERED
+  // ========================================================
+
+  if (
+    result.alreadyEntered
+  ) {
+
+    resultBox.className =
+      "card warning";
+
+
+    title.className =
+      "warningTitle";
+
+
+    title.innerHTML =
+      "⚠ ALREADY ENTERED";
+
+
+    details.innerHTML =
+
+      participantDetails(
+        currentParticipant
+      ) +
+
+      "<div>" +
+      "<span class='label'>Entry Time:</span> " +
+      safe(
+        result.entryTime
+      ) +
+      "</div>";
+
+
+    button.style.display =
+      "none";
+
+
+    return;
+
+  }
+
+
+  button.disabled =
+    false;
+
+
+  button.innerText =
+    "ALLOW ENTRY";
+
+
+  showError(
+    result.message ||
+    "Entry could not be recorded."
+  );
+
+}
+
+
+// ==========================================================
+// MANUAL SEARCH
+// ==========================================================
+
+function manualSearch() {
+
+  const input =
+    document.getElementById(
+      "regIdInput"
+    );
+
+
+  const regId =
+    input.value.trim();
+
+
+  if (
+    !regId
+  ) {
+
+    alert(
+      "Please enter a Registration ID."
+    );
+
+    return;
+
+  }
+
+
+  processRegId(
+    regId
+  );
+
+}
+
+
+// ==========================================================
+// RESET
+// ==========================================================
+
+function resetScanner() {
+
+  stopScanner();
+
+
+  currentRegId =
+    "";
+
+  currentParticipant =
+    null;
+
+
+  document
+    .getElementById(
+      "result"
+    )
+    .style.display =
+    "none";
+
+
+  document
+    .getElementById(
+      "regIdInput"
+    )
+    .value =
+    "";
+
+
+  document
+    .getElementById(
+      "status"
+    )
+    .innerText =
+    "";
+
+
+  document
+    .getElementById(
+      "entryButton"
+    )
+    .style.display =
+    "block";
+
+
+  document
+    .getElementById(
+      "entryButton"
+    )
+    .disabled =
+    false;
+
+
+  document
+    .getElementById(
+      "entryButton"
+    )
+    .innerText =
+    "ALLOW ENTRY";
+
+}
+
+
+// ==========================================================
+// ERROR
+// ==========================================================
+
+function showError(
+  message
+) {
+
+  const resultBox =
+    document.getElementById(
+      "result"
+    );
+
+
+  const title =
+    document.getElementById(
+      "resultTitle"
+    );
+
+
+  const details =
+    document.getElementById(
+      "details"
+    );
+
+
+  resultBox.style.display =
+    "block";
+
+
+  resultBox.className =
+    "card danger";
+
+
+  title.className =
+    "dangerTitle";
+
+
+  title.innerHTML =
+    "✕ ERROR";
+
+
+  details.innerHTML =
+    "<div>" +
+    safe(
+      message
+    ) +
+    "</div>";
+
+}
+
+
+// ==========================================================
+// SAFE HTML
+// ==========================================================
+
+function safe(
+  value
+) {
+
+  if (
+    value === null ||
+    value === undefined
+  ) {
+
+    return "";
+
+  }
+
+
+  return String(
+    value
+  )
+
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+
+  .replace(
+    /</g,
+    "&lt;"
+  )
+
+  .replace(
+    />/g,
+    "&gt;"
+  )
+
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
+
+
+// ==========================================================
+// ENTER KEY FOR MANUAL SEARCH
+// ==========================================================
+
+document
+  .getElementById(
+    "regIdInput"
+  )
+  .addEventListener(
+    "keydown",
+    function(event) {
+
+      if (
+        event.key ===
+        "Enter"
+      ) {
+
+        manualSearch();
+
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+
+</html>
