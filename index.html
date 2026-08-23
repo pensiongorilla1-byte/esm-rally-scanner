@@ -1,424 +1,490 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 
 <head>
 
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-<title>
-ESM Rally 2026 - Mobile Entry
-</title>
+  <title>ESM Rally 2026 - Mobile Entry Scanner</title>
 
 
-<!-- QR SCANNER LIBRARY -->
+  <!-- QR SCANNER LIBRARY -->
+  <script src="https://unpkg.com/html5-qrcode"></script>
 
-<script
-  src="https://unpkg.com/html5-qrcode"
-></script>
 
+  <style>
 
-<style>
+    * {
+      box-sizing: border-box;
+    }
 
-* {
-  box-sizing: border-box;
-}
 
+    body {
 
-body {
+      margin: 0;
 
-  margin: 0;
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
-  font-family:
-    Arial,
-    sans-serif;
+      background: #eef2f7;
 
-  background:
-    #eef2f7;
+      color: #1f2937;
 
-  color:
-    #1f2937;
+    }
 
-}
 
+    /* =====================================================
+       HEADER
+       ===================================================== */
 
-.header {
+    .header {
 
-  background:
-    #1f2937;
+      background: #1f2937;
 
-  color:
-    white;
+      color: white;
 
-  text-align:
-    center;
+      text-align: center;
 
-  padding:
-    20px 10px;
+      padding: 20px 10px;
 
-}
+    }
 
 
-.header h1 {
+    .header h1 {
 
-  margin:
-    0;
+      margin: 0;
 
-  font-size:
-    24px;
+      font-size: 24px;
 
-}
+    }
 
 
-.header p {
+    .header p {
 
-  margin:
-    6px 0 0;
+      margin: 6px 0 0;
 
-  font-size:
-    14px;
+      font-size: 14px;
 
-}
+    }
 
 
-.container {
+    /* =====================================================
+       MAIN CONTAINER
+       ===================================================== */
 
-  max-width:
-    600px;
+    .container {
 
-  margin:
-    auto;
+      width: 100%;
 
-  padding:
-    15px;
+      max-width: 600px;
 
-}
+      margin: auto;
 
+      padding: 15px;
 
-.card {
+    }
 
-  background:
-    white;
 
-  border-radius:
-    12px;
+    /* =====================================================
+       CARD
+       ===================================================== */
 
-  padding:
-    20px;
+    .card {
 
-  margin-bottom:
-    15px;
+      background: white;
 
-  box-shadow:
-    0 3px 12px
-    rgba(0,0,0,0.08);
+      border-radius: 12px;
 
-}
+      padding: 20px;
 
+      margin-bottom: 15px;
 
-h2 {
+      box-shadow:
+        0 3px 12px
+        rgba(0, 0, 0, 0.08);
 
-  text-align:
-    center;
+    }
 
-  margin-top:
-    0;
 
-}
+    /* =====================================================
+       SCANNER
+       ===================================================== */
 
+    .scannerTitle {
 
-#reader {
+      text-align: center;
 
-  width:
-    100%;
+      margin-top: 0;
 
-  max-width:
-    450px;
+    }
 
-  margin:
-    auto;
 
-}
+    #reader {
 
+      width: 100%;
 
-button {
+      max-width: 450px;
 
-  width:
-    100%;
+      margin: 15px auto;
 
-  padding:
-    15px;
+      overflow: hidden;
 
-  border:
-    none;
+      border-radius: 10px;
 
-  border-radius:
-    8px;
+    }
 
-  font-size:
-    17px;
 
-  font-weight:
-    bold;
+    /* Make video fit properly */
 
-  cursor:
-    pointer;
+    #reader video {
 
-}
+      width: 100% !important;
 
+      height: auto !important;
 
-.start {
+      border-radius: 10px;
 
-  background:
-    #2563eb;
+    }
 
-  color:
-    white;
 
-}
+    #reader img {
 
+      max-width: 100%;
 
-.stop {
+    }
 
-  background:
-    #dc2626;
 
-  color:
-    white;
+    /* =====================================================
+       BUTTONS
+       ===================================================== */
 
-  margin-top:
-    10px;
+    button {
 
-}
+      width: 100%;
 
+      padding: 15px;
 
-.manual {
+      border: none;
 
-  display:
-    flex;
+      border-radius: 8px;
 
-  gap:
-    8px;
+      font-size: 17px;
 
-}
+      font-weight: bold;
 
+      cursor: pointer;
 
-.manual input {
+    }
 
-  flex:
-    1;
 
-  padding:
-    14px;
+    .startButton {
 
-  border:
-    1px solid #cbd5e1;
+      background: #2563eb;
 
-  border-radius:
-    7px;
+      color: white;
 
-  font-size:
-    17px;
+    }
 
-  text-transform:
-    uppercase;
 
-}
+    .stopButton {
 
+      background: #dc2626;
 
-.search {
+      color: white;
 
-  width:
-    auto;
+      margin-top: 10px;
 
-  background:
-    #2563eb;
+    }
 
-  color:
-    white;
 
-}
+    .entryButton {
 
+      background: #16a34a;
 
-#result {
+      color: white;
 
-  display:
-    none;
+      margin-top: 20px;
 
-}
+    }
 
 
-.success {
+    .entryButton:disabled {
 
-  border:
-    5px solid #16a34a;
+      opacity: 0.6;
 
-}
+      cursor: not-allowed;
 
+    }
 
-.warning {
 
-  border:
-    5px solid #f59e0b;
+    .nextButton {
 
-}
+      background: #374151;
 
+      color: white;
 
-.danger {
+      margin-top: 10px;
 
-  border:
-    5px solid #dc2626;
+    }
 
-}
 
+    /* =====================================================
+       STATUS
+       ===================================================== */
 
-.successTitle {
+    .status {
 
-  color:
-    #15803d;
+      text-align: center;
 
-  font-size:
-    28px;
+      margin-top: 12px;
 
-  font-weight:
-    bold;
+      min-height: 20px;
 
-  text-align:
-    center;
+      font-size: 14px;
 
-}
+      color: #475569;
 
+    }
 
-.warningTitle {
 
-  color:
-    #d97706;
+    /* =====================================================
+       MANUAL SEARCH
+       ===================================================== */
 
-  font-size:
-    27px;
+    .manual {
 
-  font-weight:
-    bold;
+      display: flex;
 
-  text-align:
-    center;
+      gap: 8px;
 
-}
+    }
 
 
-.dangerTitle {
+    .manual input {
 
-  color:
-    #dc2626;
+      flex: 1;
 
-  font-size:
-    27px;
+      min-width: 0;
 
-  font-weight:
-    bold;
+      padding: 14px;
 
-  text-align:
-    center;
+      border:
+        1px solid #cbd5e1;
 
-}
+      border-radius: 7px;
 
+      font-size: 17px;
 
-.details {
+      text-transform: uppercase;
 
-  margin-top:
-    15px;
+      outline: none;
 
-}
+    }
 
 
-.details div {
+    .manual input:focus {
 
-  padding:
-    10px 5px;
+      border-color: #2563eb;
 
-  border-bottom:
-    1px solid #e5e7eb;
+    }
 
-}
 
+    .searchButton {
 
-.label {
+      width: auto;
 
-  font-weight:
-    bold;
+      background: #2563eb;
 
-}
+      color: white;
 
+      padding-left: 20px;
 
-.entry {
+      padding-right: 20px;
 
-  background:
-    #16a34a;
+    }
 
-  color:
-    white;
 
-  margin-top:
-    20px;
+    /* =====================================================
+       RESULT
+       ===================================================== */
 
-}
+    #result {
 
+      display: none;
 
-.next {
+    }
 
-  background:
-    #374151;
 
-  color:
-    white;
+    .successCard {
 
-  margin-top:
-    10px;
+      border:
+        5px solid #16a34a;
 
-}
+    }
 
 
-.status {
+    .warningCard {
 
-  text-align:
-    center;
+      border:
+        5px solid #f59e0b;
 
-  margin:
-    10px 0;
+    }
 
-  min-height:
-    20px;
 
-  font-size:
-    14px;
+    .dangerCard {
 
-}
+      border:
+        5px solid #dc2626;
 
+    }
 
-@media(max-width:500px) {
 
-  .manual {
+    .successTitle {
 
-    flex-direction:
-      column;
+      color: #15803d;
 
-  }
+      font-size: 28px;
 
-  .search {
+      font-weight: bold;
 
-    width:
-      100%;
+      text-align: center;
 
-  }
+      margin-bottom: 15px;
 
-}
+    }
 
-</style>
+
+    .warningTitle {
+
+      color: #d97706;
+
+      font-size: 27px;
+
+      font-weight: bold;
+
+      text-align: center;
+
+      margin-bottom: 15px;
+
+    }
+
+
+    .dangerTitle {
+
+      color: #dc2626;
+
+      font-size: 27px;
+
+      font-weight: bold;
+
+      text-align: center;
+
+      margin-bottom: 15px;
+
+    }
+
+
+    /* =====================================================
+       PARTICIPANT DETAILS
+       ===================================================== */
+
+    .details {
+
+      margin-top: 15px;
+
+    }
+
+
+    .details div {
+
+      padding: 11px 5px;
+
+      border-bottom:
+        1px solid #e5e7eb;
+
+      font-size: 16px;
+
+    }
+
+
+    .label {
+
+      font-weight: bold;
+
+    }
+
+
+    /* =====================================================
+       MOBILE
+       ===================================================== */
+
+    @media (max-width: 500px) {
+
+      .header h1 {
+
+        font-size: 21px;
+
+      }
+
+
+      .container {
+
+        padding: 10px;
+
+      }
+
+
+      .card {
+
+        padding: 15px;
+
+      }
+
+
+      .manual {
+
+        flex-direction: column;
+
+      }
+
+
+      .searchButton {
+
+        width: 100%;
+
+      }
+
+
+      .successTitle {
+
+        font-size: 25px;
+
+      }
+
+
+      .warningTitle {
+
+        font-size: 24px;
+
+      }
+
+
+      .dangerTitle {
+
+        font-size: 24px;
+
+      }
+
+    }
+
+  </style>
 
 </head>
 
@@ -426,167 +492,179 @@ button {
 <body>
 
 
-<div class="header">
-
-  <h1>
-    ESM RALLY 2026
-  </h1>
-
-  <p>
-    MOBILE ENTRY SCANNER
-  </p>
-
-</div>
-
-
-<div class="container">
-
-
   <!-- =====================================================
-       QR SCANNER
+       HEADER
        ===================================================== -->
 
-  <div class="card">
+  <div class="header">
 
-    <h2>
-      QR Code Scanner
-    </h2>
+    <h1>
+      ESM RALLY 2026
+    </h1>
 
-    <div
-      id="reader">
-    </div>
-
-    <br>
-
-    <button
-      id="startButton"
-      class="start"
-      onclick="startScanner()">
-
-      📷 START QR SCANNER
-
-    </button>
-
-
-    <button
-      id="stopButton"
-      class="stop"
-      onclick="stopScanner()"
-      style="display:none">
-
-      STOP SCANNER
-
-    </button>
-
-
-    <div
-      id="status"
-      class="status">
-    </div>
+    <p>
+      MOBILE ENTRY SCANNER
+    </p>
 
   </div>
 
 
-  <!-- =====================================================
-       MANUAL SEARCH
-       ===================================================== -->
-
-  <div class="card">
-
-    <h3>
-      Manual REGID Search
-    </h3>
+  <div class="container">
 
 
-    <div class="manual">
+    <!-- ===================================================
+         QR SCANNER
+         =================================================== -->
 
-      <input
-        id="regIdInput"
-        placeholder="REGID-0001"
-        autocomplete="off"
-      >
+    <div class="card">
+
+      <h2 class="scannerTitle">
+        QR Code Scanner
+      </h2>
+
+
+      <div id="reader"></div>
+
 
       <button
-        class="search"
-        onclick="manualSearch()">
+        id="startButton"
+        class="startButton"
+        onclick="startScanner()">
 
-        SEARCH
+        📷 START QR SCANNER
+
+      </button>
+
+
+      <button
+        id="stopButton"
+        class="stopButton"
+        onclick="stopScanner()"
+        style="display:none;">
+
+        STOP SCANNER
+
+      </button>
+
+
+      <div
+        id="status"
+        class="status">
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         MANUAL SEARCH
+         =================================================== -->
+
+    <div class="card">
+
+      <h3>
+        Manual REGID Search
+      </h3>
+
+
+      <div class="manual">
+
+        <input
+          type="text"
+          id="regIdInput"
+          placeholder="REGID-0001"
+          autocomplete="off"
+        >
+
+
+        <button
+          class="searchButton"
+          onclick="manualSearch()">
+
+          SEARCH
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         RESULT
+         =================================================== -->
+
+    <div
+      id="result"
+      class="card">
+
+
+      <div
+        id="resultTitle">
+      </div>
+
+
+      <div
+        id="details"
+        class="details">
+      </div>
+
+
+      <button
+        id="entryButton"
+        class="entryButton"
+        onclick="allowEntry()">
+
+        ALLOW ENTRY
+
+      </button>
+
+
+      <button
+        id="nextButton"
+        class="nextButton"
+        onclick="resetScanner()">
+
+        SCAN NEXT PARTICIPANT
 
       </button>
 
     </div>
 
-  </div>
-
-
-  <!-- =====================================================
-       RESULT
-       ===================================================== -->
-
-  <div
-    id="result"
-    class="card">
-
-
-    <div
-      id="resultTitle">
-    </div>
-
-
-    <div
-      id="details"
-      class="details">
-    </div>
-
-
-    <button
-      id="entryButton"
-      class="entry"
-      onclick="allowEntry()">
-
-      ALLOW ENTRY
-
-    </button>
-
-
-    <button
-      class="next"
-      onclick="resetScanner()">
-
-      SCAN NEXT PARTICIPANT
-
-    </button>
-
 
   </div>
-
-
-</div>
 
 
 <script>
 
 
 // ==========================================================
-// YOUR GOOGLE APPS SCRIPT WEB APP URL
+// GOOGLE APPS SCRIPT WEB APP URL
+// ==========================================================
+//
+// IMPORTANT:
+// Replace this with your actual Apps Script /exec URL.
+//
+// Example:
+// https://script.google.com/macros/s/XXXXXXXX/exec
+//
 // ==========================================================
 
 const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbz22ldUhMO2D1p_CwJpkxrZfaepV2Il62XP_B5d80NOxFVPJ0KtRpO3mt_ZN-fjDIqnDw/exec";
+  "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
 
 
 // ==========================================================
 // GLOBAL VARIABLES
 // ==========================================================
 
-let scanner =
-  null;
+let scanner = null;
 
-let currentRegId =
-  "";
+let scannerRunning = false;
 
-let currentParticipant =
-  null;
+let currentRegId = "";
+
+let currentParticipant = null;
 
 
 // ==========================================================
@@ -595,29 +673,37 @@ let currentParticipant =
 
 function startScanner() {
 
+  if (scannerRunning) {
 
-  document
-    .getElementById(
-      "startButton"
-    )
-    .style.display =
-      "none";
+    return;
+
+  }
 
 
-  document
-    .getElementById(
-      "stopButton"
-    )
-    .style.display =
-      "block";
-
-
-  document
-    .getElementById(
+  const status =
+    document.getElementById(
       "status"
-    )
-    .innerText =
-      "Starting camera...";
+    );
+
+
+  const startButton =
+    document.getElementById(
+      "startButton"
+    );
+
+
+  const stopButton =
+    document.getElementById(
+      "stopButton"
+    );
+
+
+  status.innerText =
+    "Starting camera...";
+
+
+  startButton.disabled =
+    true;
 
 
   scanner =
@@ -626,31 +712,81 @@ function startScanner() {
     );
 
 
+  /*
+   * IMPORTANT:
+   *
+   * Use a STRING here.
+   *
+   * Do NOT use:
+   *
+   * {
+   *   ideal: "environment"
+   * }
+   *
+   * This fixes the:
+   *
+   * "facingMode should be string
+   * or object with exact as key"
+   *
+   * error.
+   */
+
+  const cameraConfig = {
+
+    facingMode: "environment"
+
+  };
+
+
+  const qrConfig = {
+
+    fps: 10,
+
+    qrbox: function(
+      viewfinderWidth,
+      viewfinderHeight
+    ) {
+
+      let size =
+        Math.min(
+          viewfinderWidth,
+          viewfinderHeight
+        ) * 0.70;
+
+
+      size =
+        Math.max(
+          220,
+          size
+        );
+
+
+      size =
+        Math.min(
+          300,
+          size
+        );
+
+
+      return {
+
+        width: size,
+
+        height: size
+
+      };
+
+    }
+
+  };
+
+
   scanner
     .start(
 
-      {
-        facingMode:
-          {
-            ideal:
-              "environment"
-          }
-      },
+      cameraConfig,
 
-      {
-        fps:
-          10,
-
-        qrbox:
-          {
-            width:
-              250,
-
-            height:
-              250
-          }
-
-      },
+      qrConfig,
 
       function(decodedText) {
 
@@ -662,8 +798,12 @@ function startScanner() {
 
       function(errorMessage) {
 
-        // Normal scanning errors
-        // are ignored.
+        /*
+         * QR not detected.
+         *
+         * This happens continuously
+         * while scanning and is normal.
+         */
 
       }
 
@@ -671,29 +811,105 @@ function startScanner() {
 
     .then(function() {
 
-      document
-        .getElementById(
-          "status"
-        )
-        .innerText =
-        "Camera ready. Scan the participant QR code.";
+      scannerRunning =
+        true;
+
+
+      startButton.disabled =
+        false;
+
+
+      startButton.style.display =
+        "none";
+
+
+      stopButton.style.display =
+        "block";
+
+
+      status.innerText =
+        "Camera ready. Point the QR code inside the scanning area.";
 
     })
 
     .catch(function(error) {
 
       console.error(
+        "Camera error:",
         error
       );
 
 
-      document
-        .getElementById(
-          "status"
-        )
-        .innerText =
+      scannerRunning =
+        false;
+
+
+      startButton.disabled =
+        false;
+
+
+      startButton.style.display =
+        "block";
+
+
+      stopButton.style.display =
+        "none";
+
+
+      status.innerText =
         "Camera could not be started. " +
-        "Please allow camera permission.";
+        "Please allow camera permission for this site.";
+
+    });
+
+}
+
+
+// ==========================================================
+// STOP QR SCANNER
+// ==========================================================
+
+function stopScanner() {
+
+  if (
+    !scanner
+  ) {
+
+    scannerRunning =
+      false;
+
+    return;
+
+  }
+
+
+  scanner
+    .stop()
+
+    .then(function() {
+
+      try {
+
+        scanner.clear();
+
+      }
+
+      catch (e) {
+
+        console.log(
+          e
+        );
+
+      }
+
+
+      scanner =
+        null;
+
+
+      scannerRunning =
+        false;
+
 
       document
         .getElementById(
@@ -705,62 +921,61 @@ function startScanner() {
 
       document
         .getElementById(
+          "startButton"
+        )
+        .disabled =
+        false;
+
+
+      document
+        .getElementById(
+          "stopButton"
+        )
+        .style.display =
+        "none";
+
+    })
+
+    .catch(function(error) {
+
+      console.log(
+        "Scanner stop error:",
+        error
+      );
+
+
+      scanner =
+        null;
+
+
+      scannerRunning =
+        false;
+
+
+      document
+        .getElementById(
+          "startButton"
+        )
+        .style.display =
+        "block";
+
+
+      document
+        .getElementById(
+          "startButton"
+        )
+        .disabled =
+        false;
+
+
+      document
+        .getElementById(
           "stopButton"
         )
         .style.display =
         "none";
 
     });
-
-}
-
-
-// ==========================================================
-// STOP SCANNER
-// ==========================================================
-
-function stopScanner() {
-
-  if (
-    scanner
-  ) {
-
-    scanner
-      .stop()
-      .then(function() {
-
-        scanner.clear();
-
-        scanner =
-          null;
-
-      })
-
-      .catch(function(error) {
-
-        console.log(
-          error
-        );
-
-      });
-
-  }
-
-
-  document
-    .getElementById(
-      "startButton"
-    )
-    .style.display =
-    "block";
-
-
-  document
-    .getElementById(
-      "stopButton"
-    )
-    .style.display =
-    "none";
 
 }
 
@@ -790,9 +1005,36 @@ function handleQRCode(
   }
 
 
-  // Stop scanner immediately
+  /*
+   * Prevent the same QR from being
+   * processed repeatedly while the
+   * camera is still stopping.
+   */
+
+  if (
+    currentRegId === value
+  ) {
+
+    return;
+
+  }
+
+
+  currentRegId =
+    value;
+
 
   stopScanner();
+
+
+  document
+    .getElementById(
+      "status"
+    )
+    .innerText =
+    "QR detected: " +
+    value +
+    ". Checking registration...";
 
 
   processRegId(
@@ -822,6 +1064,10 @@ function processRegId(
     !regId
   ) {
 
+    showError(
+      "Registration ID is empty."
+    );
+
     return;
 
   }
@@ -841,17 +1087,36 @@ function processRegId(
     "...";
 
 
-  fetch(
-
+  const url =
     SCRIPT_URL +
     "?action=find&regid=" +
     encodeURIComponent(
       regId
-    )
+    );
 
+
+  fetch(
+    url,
+    {
+      method: "GET",
+
+      cache: "no-store"
+    }
   )
 
   .then(function(response) {
+
+    if (
+      !response.ok
+    ) {
+
+      throw new Error(
+        "Server returned HTTP " +
+        response.status
+      );
+
+    }
+
 
     return response.json();
 
@@ -868,6 +1133,7 @@ function processRegId(
   .catch(function(error) {
 
     console.error(
+      "Lookup error:",
       error
     );
 
@@ -922,7 +1188,7 @@ function displayParticipant(
 
 
   // ========================================================
-  // INVALID
+  // INVALID REGISTRATION
   // ========================================================
 
   if (
@@ -931,7 +1197,7 @@ function displayParticipant(
   ) {
 
     resultBox.className =
-      "card danger";
+      "card dangerCard";
 
 
     title.className =
@@ -945,15 +1211,25 @@ function displayParticipant(
     details.innerHTML =
 
       "<div>" +
+
       safe(
         result.message ||
         "Registration not found."
       ) +
+
       "</div>";
 
 
     entryButton.style.display =
       "none";
+
+
+    document
+      .getElementById(
+        "status"
+      )
+      .innerText =
+      "Invalid registration.";
 
 
     return;
@@ -971,13 +1247,14 @@ function displayParticipant(
       result.entryStatus ||
       ""
     )
+    .trim()
     .toLowerCase() ===
     "entered"
 
   ) {
 
     resultBox.className =
-      "card warning";
+      "card warningCard";
 
 
     title.className =
@@ -995,15 +1272,28 @@ function displayParticipant(
       ) +
 
       "<div>" +
-      "<span class='label'>Entry Time:</span> " +
+
+      "<span class='label'>" +
+      "Entry Time:" +
+      "</span> " +
+
       safe(
         result.entryTime
       ) +
+
       "</div>";
 
 
     entryButton.style.display =
       "none";
+
+
+    document
+      .getElementById(
+        "status"
+      )
+      .innerText =
+      "This registration has already been used.";
 
 
     return;
@@ -1012,11 +1302,11 @@ function displayParticipant(
 
 
   // ========================================================
-  // VALID
+  // VALID REGISTRATION
   // ========================================================
 
   resultBox.className =
-    "card success";
+    "card successCard";
 
 
   title.className =
@@ -1044,6 +1334,14 @@ function displayParticipant(
   entryButton.innerText =
     "ALLOW ENTRY";
 
+
+  document
+    .getElementById(
+      "status"
+    )
+    .innerText =
+    "Registration verified.";
+
 }
 
 
@@ -1052,52 +1350,89 @@ function displayParticipant(
 // ==========================================================
 
 function participantDetails(
-  p
+  participant
 ) {
 
-  return
+  return (
 
     "<div>" +
-    "<span class='label'>REGID:</span> " +
+
+    "<span class='label'>" +
+    "REGID:" +
+    "</span> " +
+
     safe(
-      p.regId
+      participant.regId
     ) +
+
     "</div>" +
 
-    "<div>" +
-    "<span class='label'>Army No:</span> " +
-    safe(
-      p.armyNo
-    ) +
-    "</div>" +
 
     "<div>" +
-    "<span class='label'>Rank:</span> " +
+
+    "<span class='label'>" +
+    "Army No:" +
+    "</span> " +
+
     safe(
-      p.rank
+      participant.armyNo
     ) +
+
     "</div>" +
 
-    "<div>" +
-    "<span class='label'>Name:</span> " +
-    safe(
-      p.name
-    ) +
-    "</div>" +
 
     "<div>" +
-    "<span class='label'>Unit:</span> " +
+
+    "<span class='label'>" +
+    "Rank:" +
+    "</span> " +
+
     safe(
-      p.unit
+      participant.rank
     ) +
+
     "</div>" +
 
+
     "<div>" +
-    "<span class='label'>Mobile:</span> " +
+
+    "<span class='label'>" +
+    "Name:" +
+    "</span> " +
+
     safe(
-      p.mobile
+      participant.name
     ) +
-    "</div>";
+
+    "</div>" +
+
+
+    "<div>" +
+
+    "<span class='label'>" +
+    "Unit:" +
+    "</span> " +
+
+    safe(
+      participant.unit
+    ) +
+
+    "</div>" +
+
+
+    "<div>" +
+
+    "<span class='label'>" +
+    "Mobile:" +
+    "</span> " +
+
+    safe(
+      participant.mobile
+    ) +
+
+    "</div>"
+
+  );
 
 }
 
@@ -1111,6 +1446,10 @@ function allowEntry() {
   if (
     !currentRegId
   ) {
+
+    showError(
+      "No Registration ID selected."
+    );
 
     return;
 
@@ -1131,17 +1470,49 @@ function allowEntry() {
     "PROCESSING...";
 
 
-  fetch(
+  document
+    .getElementById(
+      "status"
+    )
+    .innerText =
+    "Recording entry...";
 
+
+  const url =
     SCRIPT_URL +
     "?action=entry&regid=" +
     encodeURIComponent(
       currentRegId
-    )
+    );
+
+
+  fetch(
+
+    url,
+
+    {
+
+      method: "GET",
+
+      cache: "no-store"
+
+    }
 
   )
 
   .then(function(response) {
+
+    if (
+      !response.ok
+    ) {
+
+      throw new Error(
+        "Server returned HTTP " +
+        response.status
+      );
+
+    }
+
 
     return response.json();
 
@@ -1158,6 +1529,7 @@ function allowEntry() {
   .catch(function(error) {
 
     console.error(
+      "Entry error:",
       error
     );
 
@@ -1180,7 +1552,7 @@ function allowEntry() {
 
 
 // ==========================================================
-// ENTRY RESULT
+// PROCESS ENTRY RESULT
 // ==========================================================
 
 function processEntryResult(
@@ -1212,7 +1584,7 @@ function processEntryResult(
 
 
   // ========================================================
-  // SUCCESS
+  // ENTRY ALLOWED
   // ========================================================
 
   if (
@@ -1221,7 +1593,7 @@ function processEntryResult(
   ) {
 
     resultBox.className =
-      "card success";
+      "card successCard";
 
 
     title.className =
@@ -1239,10 +1611,15 @@ function processEntryResult(
       ) +
 
       "<div>" +
-      "<span class='label'>Entry Time:</span> " +
+
+      "<span class='label'>" +
+      "Entry Time:" +
+      "</span> " +
+
       safe(
         result.entryTime
       ) +
+
       "</div>";
 
 
@@ -1272,7 +1649,7 @@ function processEntryResult(
   ) {
 
     resultBox.className =
-      "card warning";
+      "card warningCard";
 
 
     title.className =
@@ -1290,10 +1667,15 @@ function processEntryResult(
       ) +
 
       "<div>" +
-      "<span class='label'>Entry Time:</span> " +
+
+      "<span class='label'>" +
+      "Entry Time:" +
+      "</span> " +
+
       safe(
         result.entryTime
       ) +
+
       "</div>";
 
 
@@ -1301,10 +1683,22 @@ function processEntryResult(
       "none";
 
 
+    document
+      .getElementById(
+        "status"
+      )
+      .innerText =
+      "This participant has already entered.";
+
+
     return;
 
   }
 
+
+  // ========================================================
+  // ERROR
+  // ========================================================
 
   button.disabled =
     false;
@@ -1323,7 +1717,7 @@ function processEntryResult(
 
 
 // ==========================================================
-// MANUAL SEARCH
+// MANUAL REGID SEARCH
 // ==========================================================
 
 function manualSearch() {
@@ -1335,7 +1729,9 @@ function manualSearch() {
 
 
   const regId =
-    input.value.trim();
+    input.value
+      .trim()
+      .toUpperCase();
 
 
   if (
@@ -1349,6 +1745,9 @@ function manualSearch() {
     return;
 
   }
+
+
+  stopScanner();
 
 
   processRegId(
@@ -1398,9 +1797,27 @@ function resetScanner() {
     "";
 
 
+  const entryButton =
+    document.getElementById(
+      "entryButton"
+    );
+
+
+  entryButton.style.display =
+    "block";
+
+
+  entryButton.disabled =
+    false;
+
+
+  entryButton.innerText =
+    "ALLOW ENTRY";
+
+
   document
     .getElementById(
-      "entryButton"
+      "startButton"
     )
     .style.display =
     "block";
@@ -1408,24 +1825,16 @@ function resetScanner() {
 
   document
     .getElementById(
-      "entryButton"
+      "stopButton"
     )
-    .disabled =
-    false;
-
-
-  document
-    .getElementById(
-      "entryButton"
-    )
-    .innerText =
-    "ALLOW ENTRY";
+    .style.display =
+    "none";
 
 }
 
 
 // ==========================================================
-// ERROR
+// SHOW ERROR
 // ==========================================================
 
 function showError(
@@ -1455,7 +1864,7 @@ function showError(
 
 
   resultBox.className =
-    "card danger";
+    "card dangerCard";
 
 
   title.className =
@@ -1467,17 +1876,28 @@ function showError(
 
 
   details.innerHTML =
+
     "<div>" +
+
     safe(
       message
     ) +
+
     "</div>";
+
+
+  document
+    .getElementById(
+      "status"
+    )
+    .innerText =
+    "";
 
 }
 
 
 // ==========================================================
-// SAFE HTML
+// SAFE HTML OUTPUT
 // ==========================================================
 
 function safe(
@@ -1539,8 +1959,7 @@ document
     function(event) {
 
       if (
-        event.key ===
-        "Enter"
+        event.key === "Enter"
       ) {
 
         manualSearch();
@@ -1551,6 +1970,7 @@ document
   );
 
 </script>
+
 
 </body>
 
