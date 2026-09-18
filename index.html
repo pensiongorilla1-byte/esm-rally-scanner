@@ -299,9 +299,43 @@ button {
   </button>
 
   <div
-    id="status"
-    class="status">
-  </div>
+  id="status"
+  class="status">
+</div>
+
+<!-- USB QR SCANNER -->
+
+<button
+  id="usbStartButton"
+  class="startButton"
+  onclick="startUSBScanner()"
+  style="margin-top:10px;">
+
+  🔌 ACTIVATE USB QR SCANNER
+
+</button>
+
+<input
+  type="text"
+  id="usbScannerInput"
+  placeholder="USB Scanner Ready - Scan QR Code"
+  autocomplete="off"
+  style="
+    width:100%;
+    padding:14px;
+    margin-top:10px;
+    font-size:17px;
+    text-align:center;
+    border:2px solid #16a34a;
+    border-radius:8px;
+  "
+>
+
+<div
+  id="usbStatus"
+  class="status">
+  USB scanner not activated.
+</div>
 
 </div>
 
@@ -401,6 +435,8 @@ let scannerRunning = false;
 let currentRegId = "";
 
 let currentParticipant = null;
+
+let usbScannerActive = false;
 
 
 // ==========================================================
@@ -546,6 +582,28 @@ function startScanner() {
 
 }
 
+// ==========================================================
+// USB QR SCANNER
+// ==========================================================
+
+function startUSBScanner() {
+
+  const input =
+    document.getElementById("usbScannerInput");
+
+  const status =
+    document.getElementById("usbStatus");
+
+  usbScannerActive = true;
+
+  input.value = "";
+
+  input.focus();
+
+  status.innerText =
+    "USB QR Scanner ready. Scan the QR code.";
+
+}
 
 // ==========================================================
 // STOP SCANNER
@@ -1371,8 +1429,43 @@ document
 // AUTO FOCUS USB QR SCANNER
 
 window.addEventListener("load", function() {
-  document.getElementById("regIdInput").focus();
+  startUSBScanner();
 });
+
+// ==========================================================
+// USB QR SCANNER INPUT
+// ==========================================================
+
+document
+  .getElementById("usbScannerInput")
+  .addEventListener(
+    "keydown",
+    function(event) {
+
+      if (
+        event.key === "Enter" &&
+        usbScannerActive
+      ) {
+
+        event.preventDefault();
+
+        const value =
+          this.value.trim().toUpperCase();
+
+        if (!value) {
+          return;
+        }
+
+        this.value = "";
+
+        usbScannerActive = false;
+
+        processRegId(value);
+
+      }
+
+    }
+  );
   
 </script>
 
